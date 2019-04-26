@@ -1,25 +1,20 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.udacity.gradle.builditbigger.backend.jokeApi.JokeApi;
-import com.udacity.gradle.builditbigger.util.ApiServiceUtil;
-
-import java.io.IOException;
+import com.udacity.gradle.builditbigger.api.EndpointsAsyncTask;
 
 import stefanirndorfer.at.jokingactivities.JokingActivity;
 
 import static stefanirndorfer.at.jokingactivities.JokingActivity.JOKE_KEY;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EndpointsAsyncTask.EndpointsAsyncTaskListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
         new EndpointsAsyncTask().execute(this);
     }
 
-    private void navigateToJokeTellingActivity(String joke) {
+
+    @Override
+    public void processJokeRequestResult(String joke) {
         Intent intent = new Intent(this, JokingActivity.class);
         intent.putExtra(JOKE_KEY, joke);
         startActivity(intent);
     }
-
-
 }

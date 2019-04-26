@@ -1,25 +1,23 @@
 package com.udacity.gradle.builditbigger.api;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
-import com.udacity.gradle.builditbigger.MainActivity;
 import com.udacity.gradle.builditbigger.backend.jokeApi.JokeApi;
 import com.udacity.gradle.builditbigger.util.ApiServiceUtil;
 
 import java.io.IOException;
 
-public class EndpointsAsyncTask extends AsyncTask<MainActivity, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<EndpointsAsyncTask.EndpointsAsyncTaskListener, Void, String> {
     private JokeApi myApiService = null;
-    private MainActivity mainActivity;
+    private EndpointsAsyncTaskListener listener;
 
 
     @Override
-    protected String doInBackground(MainActivity... params) {
+    protected String doInBackground(EndpointsAsyncTaskListener... params) {
         if (myApiService == null) {  // Only do this once
             myApiService = ApiServiceUtil.getApiService();
         }
-        context = params[0].getApplicationContext();
+        listener = params[0];
 
         try {
             return myApiService.tellJoke().execute().getData();
@@ -33,6 +31,10 @@ public class EndpointsAsyncTask extends AsyncTask<MainActivity, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        navigateToJokeTellingActivity(result);
+        listener.processJokeRequestResult(result);
+    }
+
+    public interface EndpointsAsyncTaskListener {
+        void processJokeRequestResult(String joke);
     }
 }
