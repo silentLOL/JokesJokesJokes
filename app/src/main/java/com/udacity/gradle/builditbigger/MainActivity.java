@@ -60,31 +60,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
-        private JokeApi myApiService = null;
-        private Context context;
-
-
-        @Override
-        protected String doInBackground(Context... params) {
-            if (myApiService == null) {  // Only do this once
-                myApiService = ApiServiceUtil.getApiService();
-            }
-            context = params[0];
-
-            try {
-                return myApiService.tellJoke().execute().getData();
-            } catch (IOException e) {
-                return e.getMessage();
-            }
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            navigateToJokeTellingActivity(result);
-        }
-    }
-
 
 }

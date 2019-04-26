@@ -1,9 +1,16 @@
 package stefanirndorfer.at.jokes;
 
+import java.util.Random;
+
 public class Joker {
-    private static final String THE_JOKE = "This is totally a funny joke ...";
+    private final String[] jokes = {
+            "This is a funny joke",
+            "This is also a funny joke",
+            "And this one too!"
+    };
 
     public String getJoke() {
-        return THE_JOKE;
+        int index = new Random().nextInt(jokes.length);
+        return jokes[index];
     }
 }
